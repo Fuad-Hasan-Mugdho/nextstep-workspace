@@ -11,8 +11,8 @@ Node.js **20.9 বা পরের version** এবং npm লাগবে। De
 NVM ব্যবহার করলে project folder-এ প্রথমে `nvm use` চালান। [.nvmrc](.nvmrc) installed Node 20 নির্বাচন করে; version installed না থাকলে `nvm install` চালান। নতুন terminal-এ Node 18 default থাকলে এই ধাপটি দরকার—Node 18 দিয়ে এই project-এর Next.js বা Playwright চালানো যাবে না।
 
 ```bash
-git clone https://github.com/Fuad-Hasan-Mugdho/nextstep-learning-workspace.git
-cd nextstep-learning-workspace
+git clone https://github.com/Fuad-Hasan-Mugdho/nextstep-workspace.git
+cd nextstep-workspace
 npm ci
 npm run dev
 ```
