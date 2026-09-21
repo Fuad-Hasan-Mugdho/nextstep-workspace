@@ -1,0 +1,26 @@
+# dependencies
+/node_modules
+
+# Next.js build output
+/.next
+/out
+
+# production and local files
+/build
+*.log
+.DS_Store
+
+# environment files (the example is safe to commit)
+.env*
+!.env.example
+
+# TypeScript
+*.tsbuildinfo
+next-env.d.ts
+
+# deployment
+.vercel
+
+# Browser test artifacts
+/test-results
+/playwright-report

@@ -1,0 +1,354 @@
+.focus-heading-note {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: #625e68;
+}
+.focus-workspace-grid {
+  display: grid;
+  grid-template-columns: minmax(360px, 1.4fr) minmax(300px, 1fr);
+  gap: 25px;
+  align-items: start;
+}
+.focus-main-panel {
+  padding: 35px 24px;
+  text-align: center;
+  min-width: 0;
+}
+.focus-mode-switch {
+  display: inline-flex;
+  background: #f5f3f9;
+  padding: 5px;
+  border-radius: 9px;
+  gap: 4px;
+}
+.focus-mode-switch button {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 7px;
+  padding: 10px 17px;
+  border: 0;
+  background: transparent;
+  border-radius: 7px;
+  font: inherit;
+  font-size: 12px;
+  font-weight: 500;
+  color: #625f6a;
+  cursor: pointer;
+}
+.focus-mode-switch button.is-selected {
+  background: #fff;
+  color: #664eb5;
+  box-shadow: 0 2px 7px #2820380a;
+}
+.focus-mode-switch button:disabled {
+  cursor: default;
+}
+.focus-clock-ring {
+  width: min(290px, 90%);
+  aspect-ratio: 1;
+  position: relative;
+  margin: 38px auto 26px;
+}
+.focus-clock-ring > svg {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  inset: 0;
+  overflow: visible;
+  transform: rotate(-90deg);
+}
+.focus-clock-ring circle {
+  fill: none;
+  stroke-width: 4;
+}
+.focus-ring-track {
+  stroke: #eeebf5;
+}
+.focus-ring-progress {
+  stroke: #8066d9;
+  stroke-linecap: round;
+  transition: stroke-dashoffset 0.3s linear;
+}
+.focus-clock-ring.is-break .focus-ring-progress {
+  stroke: #5d9e8c;
+}
+.focus-clock-content {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.focus-clock-eyebrow {
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #645f68;
+  font-weight: 600;
+}
+.focus-clock-time {
+  font-size: 65px;
+  line-height: 1.15;
+  font-weight: 600;
+  letter-spacing: -3px;
+  font-variant-numeric: tabular-nums;
+  color: #30263e;
+}
+.focus-clock-state {
+  font-size: 11px;
+  color: #625c69;
+}
+.focus-message {
+  font-size: 13px;
+  color: #645e6b;
+  min-height: 20px;
+  margin: 0 0 20px;
+}
+.focus-preset-list {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 23px;
+}
+.focus-preset-list button {
+  border: 1px solid #eeebf3;
+  border-radius: 7px;
+  background: #fff;
+  font: inherit;
+  font-size: 11px;
+  padding: 7px 13px;
+  color: #635c6d;
+  cursor: pointer;
+}
+.focus-preset-list button.is-selected {
+  color: #674faa;
+  border-color: #d9cef4;
+  background: #f7f4fc;
+}
+.focus-preset-list button:disabled {
+  cursor: default;
+  opacity: 0.75;
+}
+.focus-action-row {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 12px;
+}
+.focus-action-row .button-dark {
+  min-width: 174px;
+}
+.focus-helper {
+  font-size: 10px;
+  color: #645f68;
+  margin: 18px 0 0;
+}
+.focus-next-mode {
+  margin-top: 17px;
+  color: #674faa;
+}
+.focus-storage-warning {
+  font-size: 12px;
+  color: #86552a;
+  background: #fff6e9;
+  border-radius: 8px;
+  padding: 12px;
+  margin: 20px 0 0;
+  line-height: 1.7;
+}
+.focus-side-panels {
+  display: flex;
+  flex-direction: column;
+  gap: 21px;
+}
+.focus-today-panel,
+.focus-history-panel {
+  padding: 24px;
+}
+.focus-panel-title {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  color: #6a5876;
+}
+.focus-side-panels h2 {
+  font-size: 14px;
+  font-weight: 600;
+  color: #39303f;
+  margin: 0 0 19px;
+}
+.focus-panel-title h2 {
+  margin: 0;
+}
+.focus-summary-stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  margin: 24px 0;
+}
+.focus-summary-stats > div {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding-right: 12px;
+}
+.focus-summary-stats > div + div {
+  border-left: 1px solid #eeeaf1;
+  padding-left: 25px;
+  padding-right: 0;
+}
+.focus-summary-stats strong {
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  letter-spacing: -1px;
+}
+.focus-summary-stats strong small {
+  font-size: 12px;
+  font-weight: 400;
+  letter-spacing: 0;
+  color: #645d6a;
+}
+.focus-summary-stats span {
+  font-size: 10px;
+  color: #655d6b;
+}
+.focus-today-strip {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: #f5f1fb;
+  border-radius: 7px;
+  color: #69568a;
+  font-size: 10px;
+  line-height: 1.5;
+  padding: 11px;
+}
+.focus-history-panel ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+.focus-history-panel li {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 13px 0;
+  border-top: 1px solid #f1edf4;
+}
+.focus-history-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  background: #edf5f0;
+  color: #486655;
+  border-radius: 9px;
+  flex-shrink: 0;
+}
+.focus-history-panel li > div {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+.focus-history-panel li strong {
+  font-size: 11px;
+  font-weight: 500;
+}
+.focus-history-panel time {
+  font-size: 10px;
+  color: #655f69;
+}
+.focus-history-done {
+  font-size: 9px;
+  color: #4f6558;
+  margin-left: auto;
+}
+.focus-history-empty {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  color: #635d6a;
+  padding: 11px 0;
+}
+.focus-history-empty svg {
+  flex-shrink: 0;
+}
+.focus-history-empty p {
+  font-size: 12px;
+  line-height: 1.8;
+  margin: 0;
+  color: #645c6b;
+}
+.focus-how-it-works {
+  padding: 7px 9px;
+}
+.focus-how-it-works ol {
+  margin: 0;
+  padding-left: 17px;
+  font-size: 11px;
+  line-height: 2.2;
+  color: #655c6a;
+}
+.focus-how-it-works p {
+  font-size: 10px;
+  line-height: 1.9;
+  color: #645d69;
+  margin: 18px 0 10px;
+}
+.focus-how-it-works .button {
+  font-size: 11px;
+  padding-left: 0;
+  color: #6b5198;
+}
+@media (max-width: 1100px) {
+  .focus-workspace-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.85fr);
+    gap: 20px;
+  }
+  .focus-main-panel {
+    padding: 28px 18px;
+  }
+  .focus-heading-note {
+    display: none;
+  }
+  .focus-today-panel,
+  .focus-history-panel {
+    padding: 20px;
+  }
+  .focus-clock-time {
+    font-size: 59px;
+  }
+  .focus-summary-stats > div + div {
+    padding-left: 16px;
+  }
+}
+@media (max-width: 740px) {
+  .focus-workspace-grid {
+    grid-template-columns: 1fr;
+  }
+  .focus-main-panel {
+    padding: 25px 18px;
+  }
+  .focus-clock-ring {
+    width: 260px;
+    margin: 30px auto 23px;
+  }
+  .focus-side-panels {
+    gap: 17px;
+  }
+  .focus-mode-switch button {
+    padding: 9px 14px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .focus-ring-progress {
+    transition: none;
+  }
+}
