@@ -2,7 +2,7 @@
 
 এই নকশায় routing, feature logic এবং browser persistence-এর দায়িত্ব আলাদা রাখা হয়েছে। এতে একটি button-এর কাজ বোঝার জন্য পুরো project পড়তে হয় না।
 
-## তিনটি data flow
+## চারটি data flow
 
 ### Course content: repository → page → reader
 
@@ -31,6 +31,22 @@ User clicks “complete”
 Store হলো একটি module-level external store। `WorkspaceProvider` নাম থাকলেও এখানে global value React Context-এ রাখা হয়নি; `useWorkspace()`-এর `useSyncExternalStore` দিয়ে subscription হয়। Wrapper storage warning দেখায়।
 
 `model.ts` shared shape জানে। `store.ts` persistence ও subscription জানে। `workspace-provider.tsx` user actions জানে। UI action call করে; আলাদা page নিজের মতো localStorage JSON overwrite করে না।
+
+### Lesson quiz: question → answer → score → saved result
+
+```text
+features/quizzes/data.ts (QuizQuestion + প্রতি lesson-এর questions)
+  → course reader-এর lesson-quiz.tsx
+  → native radio input-এ answer নির্বাচন
+  → সব answer দেওয়ার পরে submit
+  → grade.ts-এর pure scoring function
+  → ঠিক/ভুল, score percentage ও বাংলা explanation
+  → workspace action → quizResults[lessonId]
+```
+
+Question bank-এ ১৬টি lesson-এর প্রতিটিতে তিনটি করে মোট ৪৮টি question থাকে। `grade.ts` শুধু দেওয়া questions ও answers থেকে result হিসাব করে; নিজে browser storage বা React state বদলায় না। ফলে UI থেকে scoring আলাদা করে বোঝা ও যাচাই করা যায়।
+
+নির্বাচিত answers ও current attempt-এর feedback component-এর local state। Lesson ছাড়লে unfinished answers মুছে যায়। Submitted result shared workspace-এর `quizResults`-এ lesson ID অনুযায়ী থাকে: `score`, `bestScore`, `attempts` ও `attemptedAt`। Retry answer form নতুন করে শুরু করে; আগের best score রাখে। প্রতিটি নতুন submit latest score ও attempt count আপডেট করে, আর best score আগের ও নতুন score-এর সর্বোচ্চটি রাখে। Course reader-এর lesson list এই saved best score দেখায়। Quiz submit `completeLesson` action চালায় না।
 
 ### Form: browser → server → action result
 
@@ -68,7 +84,9 @@ Root layout shared shell-এ server-rendered children pass করে। Client s
 
 `version` ভবিষ্যৎ schema migration-এর সুযোগ রাখে, কিন্তু arbitrary পুরোনো/new format convert করার universal migration system নয়। একাধিক tab একই সময়ে edit করলে last write অন্য edit ছাপিয়ে যেতে পারে। Server transaction, conflict resolution ও cloud sync এই demo-তে নেই।
 
-Saved notes ও completed sessions workspace data। Unfinished draft ও active timer tab-local transient state। Tab বন্ধ করা, browser storage policy এবং অন্য device ব্যবহারের ক্ষেত্রে এই পার্থক্য জরুরি।
+Saved notes, submitted quiz results ও completed sessions workspace data। Unfinished note draft ও active timer tab-local transient state; unfinished quiz answers শুধু component-এর memory-তে। Tab বন্ধ করা, browser storage policy এবং অন্য device ব্যবহারের ক্ষেত্রে এই পার্থক্য জরুরি। Quiz results workspace-এর অংশ বলে JSON export-এ থাকে ও confirmed reset-এ মুছে যায়।
+
+`quizResults` schema-তে default `{}` আছে। ফলে এই field ছাড়া আগে তৈরি valid version 1 workspace-ও পড়া যায়; profile, notes বা progress reset করতে হয় না। Storage-এ result লেখা না গেলে অন্য workspace change-এর মতো warning থাকে—সেই result current visit-এর পরে নাও থাকতে পারে।
 
 ## Validation কোথায়
 

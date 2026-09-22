@@ -1,6 +1,6 @@
 # NextStep-এর code বোঝার বাংলা guide
 
-প্রথমে project চালু করুন। Code না বদলে একটি lesson complete, একটি note save এবং একটি form submit করুন। আপনি যে behavior দেখলেন, এবার তার code খুঁজবেন। একবারে একটি exercise করুন; প্রতিটি change-এর পরে browser আর terminal দেখুন।
+প্রথমে project চালু করুন। Code না বদলে একটি lesson-এর quiz দিন, lesson complete করুন, একটি note save এবং একটি form submit করুন। আপনি যে behavior দেখলেন, এবার তার code খুঁজবেন। একবারে একটি exercise করুন; প্রতিটি change-এর পরে browser আর terminal দেখুন।
 
 ## ১. আপনার metadata line বুঝুন
 
@@ -89,6 +89,8 @@ Hello page-এ import করে `<Counter />` বসান। Page-এর metada
 
 একটি নতুন lesson যোগ করতে existing object-এর shape অনুসরণ করুন। একটি **unique, stable `id`**, title, duration, intro, sections, challenge ও takeaway দিন। Course-এর total minutes-ও প্রয়োজনে মিলিয়ে নিন। আগে complete করা lesson-এর id বদলালে saved progress পুরোনো id-তেই থাকবে।
 
+Lesson-এর quiz content আলাদা `src/features/quizzes/data.ts`-এ থাকে। নতুন lesson-এর stable ID অনুযায়ী তিনটি question যোগ করুন। `QuizQuestion` type দেখে existing question-এর shape অনুসরণ করুন এবং প্রতিটির বাংলা explanation লিখুন।
+
 **Code পড়ার পথ:**
 
 ```text
@@ -121,6 +123,24 @@ Dynamic page-এর `params` Promise, তাই `await params` ব্যবহ�
 **অনুশীলন:** Settings থেকে নাম বদলে dashboard দেখুন। DevTools → Application → Local Storage-এ `nextstep-workspace-v1` খুঁজে শুধু পড়ুন। একটি note save করে JSON বদলানো দেখুন। তারপর JSON export করুন।
 
 **যাচাই:** একই origin-এ refresh করলে data থাকে। অন্য browser profile-এ থাকে না। ব্যক্তিগত note রেখে DevTools-এ storage clear করবেন না; reset feature-তে confirmation আছে।
+
+### Quiz দিয়ে local state ও saved state বুঝুন
+
+এই তিনটি file ক্রমানুসারে পড়ুন:
+
+1. `features/quizzes/data.ts`: `QuizQuestion` type, প্রতিটি lesson-এর তিনটি question, সঠিক answer ও বাংলা explanation।
+2. `features/quizzes/grade.ts`: Questions ও chosen answers থেকে scoring; storage বা UI বদলানো এর কাজ নয়।
+3. `features/quizzes/lesson-quiz.tsx`: Native radio input, সব answer পাওয়ার পরে submit, score percentage, ঠিক/ভুল feedback ও retry।
+
+**Local state:** আপনি radio input-এ যে answers বাছলেন, সেগুলো current attempt-এর state। অন্য lesson-এ গেলে বা refresh করলে অসম্পূর্ণ answers থাকে না।
+
+**Saved state:** Submit-এর পরে `quizResults[lessonId]`-এ `score`, `bestScore`, `attempts` ও `attemptedAt` থাকে। Retry করা মানেই নতুন saved attempt নয়; আবার submit করলে attempt count বাড়ে। Latest score কম হলেও best score কমে না। Result workspace JSON export-এ থাকে এবং Settings-এর confirmed reset-এ মুছে যায়। Quiz submit করলে lesson complete হয় না; completion button আলাদাভাবে ব্যবহার করবেন।
+
+পুরোনো browser data-তে `quizResults` না-ও থাকতে পারে। Schema-র `.default({})` সেটিকে empty result map দেয়, ফলে আগের notes ও progress রেখেই নতুন feature ব্যবহার করা যায়। এটিই runtime data আর নতুন TypeScript type-এর পার্থক্য বোঝার একটি উদাহরণ।
+
+**অনুশীলন:** Question bank-এর একটি question বেছে wording ও explanation নিজের ভাষায় লিখুন। সঠিক answer যেন lesson-এর সঙ্গে মেলে তা দেখুন। তারপর scoring function থেকে UI পর্যন্ত answer-এর পথ নিজে ব্যাখ্যা করুন।
+
+**যাচাই:** প্রথমবার তিনটির মধ্যে দুটি ঠিক দিন—score প্রায় ৬৭% দেখাবে। Retry করে তিনটিই ঠিক দিলে best score ১০০% হবে। আরেকবার কম score পেলেও best ১০০% থাকা উচিত; attempt count হবে তিন। Refresh দিয়ে saved result দেখুন। এবার উত্তর বেছে submit না করে অন্য lesson-এ যান; ফিরে এসে unfinished answers নতুন করে দিতে হবে। Keyboard দিয়ে radio options এবং submit/retry button-ও ব্যবহার করে দেখুন।
 
 ## ৬. Form browser থেকে server-এ যায় কীভাবে
 

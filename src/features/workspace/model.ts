@@ -22,6 +22,14 @@ export const profileSchema = z.object({
   name: z.string().trim().min(1).max(40),
   weeklyGoal: z.number().int().min(1).max(30),
 });
+const quizResultSchema = z
+  .object({
+    score: z.number().int().min(0).max(100),
+    bestScore: z.number().int().min(0).max(100),
+    attempts: z.number().int().min(1),
+    attemptedAt: z.iso.datetime(),
+  })
+  .refine((result) => result.bestScore >= result.score);
 export const workspaceSchema = z.object({
   version: z.literal(1),
   profile: profileSchema,
@@ -32,6 +40,8 @@ export const workspaceSchema = z.object({
   notes: z.array(noteSchema),
   tasks: z.array(taskSchema),
   sessions: z.array(sessionSchema),
+  // পুরোনো v1 workspace-এ quizResults নেই; default আগের data অক্ষত রাখে।
+  quizResults: z.record(z.string(), quizResultSchema).default({}),
 });
 export type WorkspaceState = z.infer<typeof workspaceSchema>;
 export type Note = z.infer<typeof noteSchema>;
@@ -47,6 +57,7 @@ export const initialWorkspace: WorkspaceState = {
   notes: [],
   tasks: [],
   sessions: [],
+  quizResults: {},
 };
 
 export function localDateKey(date: Date): string {

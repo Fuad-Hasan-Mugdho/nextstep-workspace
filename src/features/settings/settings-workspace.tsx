@@ -133,10 +133,10 @@ export function SettingsWorkspace() {
       <section className="panel">
         <h2>Your data, in your hands</h2>
         <p className="muted">
-          Progress, notes, tasks, bookmarks and completed focus sessions stay in
-          this browser. Export a JSON copy before clearing browser data or
-          switching devices. This app currently exports backups for inspection;
-          automatic import is not included.
+          Progress, quiz scores, notes, tasks, bookmarks and completed focus
+          sessions stay in this browser. Export a JSON copy before clearing
+          browser data or switching devices. This app currently exports backups
+          for inspection; automatic import is not included.
         </p>
         <button
           type="button"
@@ -173,8 +173,8 @@ export function SettingsWorkspace() {
       <section className="panel danger-section">
         <h2>Start fresh</h2>
         <p className="muted">
-          Reset your profile, progress, bookmarks, notes, tasks, focus history
-          and this tab’s draft and timer.
+          Reset your profile, progress, quiz scores, bookmarks, notes, tasks,
+          focus history and this tab’s draft and timer.
         </p>
         {confirmReset ? (
           <div className="confirm-box">

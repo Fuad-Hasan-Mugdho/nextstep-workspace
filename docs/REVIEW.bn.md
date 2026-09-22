@@ -1,27 +1,33 @@
 # NextStep — যাচাই প্রতিবেদন
 
-শেষ যাচাই: **২১ সেপ্টেম্বর ২০২৬**। শেখার জন্য নির্ধারিত demo scope-এর implementation ও review শেষ হয়েছে। এটি bug-free হওয়ার বা “১০০/১০০” quality score-এর নিশ্চয়তা নয়।
+শেষ review: **২২ সেপ্টেম্বর ২০২৬**। Lesson quiz-সহ বর্তমান demo scope-এর implementation ও review শেষ হয়েছে। ২১ সেপ্টেম্বরের production build ও সম্পূর্ণ test report যাচাই করে নিচের ফল লেখা হয়েছে। এটি bug-free হওয়ার বা “১০০/১০০” quality score-এর নিশ্চয়তা নয়।
 
 ## কী সম্পূর্ণ হয়েছে
 
-Dashboard, চারটি course-এর ১৬টি বাংলা lesson, search/filter/bookmark, lesson progress, notes CRUD, roadmap tasks, focus timer, settings/export/reset এবং Server Action form playground কাজ করছে। বাংলা project tour, architecture guide ও learning guide code-এর সঙ্গে মিলিয়ে review করা হয়েছে।
+Dashboard, চারটি course-এর ১৬টি বাংলা lesson, search/filter/bookmark, lesson progress, notes CRUD, roadmap tasks, focus timer, settings/export/reset এবং Server Action form playground কাজ করছে। প্রতিটি lesson-এ তিনটি করে মোট **৪৮টি quiz question**, score, সঠিক উত্তর, বাংলা explanation ও retry যোগ হয়েছে। সর্বশেষ score, best score ও attempt count browser-এ save থাকে এবং export/reset-এর অন্তর্ভুক্ত। বাংলা architecture ও learning guide-ও update হয়েছে।
 
 ব্যক্তিগত data browser-এ থাকে। Authentication, database, email delivery, cloud sync বা backup import এই demo-তে নেই। Form playground server-এ input validate করে; message পাঠায় বা সংরক্ষণ করে না।
 
 ## পরীক্ষার ফল
 
-| পরীক্ষা                                                             | ফল                                                   | তারিখ         |
-| ------------------------------------------------------------------- | ---------------------------------------------------- | ------------- |
-| Production build, Next.js 16.3.5                                    | পাস; শেষ contrast fix-সহ build তৈরি                  | ১৫ সেপ্টেম্বর |
-| সম্পূর্ণ Playwright suite                                           | ২৫টির মধ্যে ২৪টি পাস; dashboard text contrast ব্যর্থ | ১৫ সেপ্টেম্বর |
-| Contrast সংশোধনের পর বাকি test, `npm run test:e2e -- --last-failed` | ১টির মধ্যে ১টি পাস                                   | ২১ সেপ্টেম্বর |
-| `npm run lint`                                                      | পাস                                                  | ২১ সেপ্টেম্বর |
-| `npm run typecheck`                                                 | পাস                                                  | ২১ সেপ্টেম্বর |
-| `npm audit --json`                                                  | ০টি known vulnerability report করেছে                 | ২১ সেপ্টেম্বর |
+| পরীক্ষা                                             | ফল                                                                           | তারিখ         |
+| --------------------------------------------------- | ---------------------------------------------------------------------------- | ------------- |
+| `npm run check` — lint, typecheck, production build | পাস; Next.js 16.3.5-এ quiz-সহ build তৈরি                                     | ২১ সেপ্টেম্বর |
+| সম্পূর্ণ `npm run test:e2e`                         | **৩০/৩০ পাস**; ০ failure, ০ flaky, ০ skipped                                 | ২১ সেপ্টেম্বর |
+| `npm run format:check`                              | পাস                                                                          | ২১ সেপ্টেম্বর |
+| `npm audit --json`                                  | ০টি known vulnerability report করেছে; quiz-এর জন্য নতুন dependency যোগ হয়নি | ২১ সেপ্টেম্বর |
 
-পূর্ণ run ও সংশোধিত test-এর rerun মিলিয়ে সব ২৫টি test-এর passing result আছে। ২১ সেপ্টেম্বর নতুন করে সব ২৫টি একসঙ্গে চালানো হয়নি। Browser tests production build ও Chromium/installed Chrome ব্যবহার করেছে। শেষ lint, typecheck ও browser rerun-এ Node.js 20.19.6 ব্যবহার হয়েছে।
+এই ফল **একটি সম্পূর্ণ ৩০-test run**-এর। Limit interruption-এর পরে ২২ সেপ্টেম্বর `playwright-report`-এর summary ও `test-results/.last-run.json` মিলিয়ে সফল run নিশ্চিত করা হয়েছে। Production build ও tests-এ Node.js 20.19.6 এবং Chromium/installed Chrome ব্যবহার হয়েছে।
 
-২৫টি test-এর মধ্যে ৯টি route-এর automated accessibility scan এবং ১৬টি behavior/layout check আছে। এগুলো course search, bookmarks, progress/resume, API/404, notes, tasks, profile persistence, cross-tab update, JSON export, corrupt/blocked storage, timer completion/reset, server validation ও mobile keyboard navigation যাচাই করে। Desktop ও mobile dashboard screenshot-ও দেখা হয়েছে।
+আগের ২৫টি test course search, bookmarks, progress/resume, API/404, notes, tasks, profile persistence, cross-tab update, JSON export, corrupt/blocked storage, timer completion/reset, server validation, mobile navigation এবং ৯টি route-এর automated accessibility যাচাই করে। নতুন পাঁচটি test question bank ও quiz behavior যাচাই করে:
+
+- সব lesson-এর তিনটি valid question, unique ID/options এবং explanation।
+- অসম্পূর্ণ answer submit বন্ধ রাখা, keyboard radio navigation, scoring ও repeated submit একবার count করা।
+- Retry-তে best score ধরে রাখা, reload-এর পরে last/best/attempt count এবং screen reader-এর জন্য sidebar score।
+- Lesson বদলালে unfinished answers clear, quiz ও lesson completion আলাদা থাকা।
+- পুরোনো workspace data অক্ষত থাকা, export/reset, storage failure-এর feedback এবং graded state-এর accessibility/mobile overflow।
+
+Desktop ও mobile dashboard-এর পাশাপাশি quiz-এর question ও graded-result screenshots দেখা হয়েছে।
 
 ## Review-তে যেসব সমস্যা ঠিক হয়েছে
 

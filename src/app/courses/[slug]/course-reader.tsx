@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Icon } from "@/components/ui/icon";
 import type { Course } from "@/features/courses/data";
 import { useWorkspace } from "@/features/workspace/workspace-provider";
+import { LessonQuiz } from "@/features/quizzes/lesson-quiz";
 import "@/features/courses/courses.css";
 
 export function CourseReader({ course }: { course: Course }) {
@@ -123,6 +124,7 @@ export function CourseReader({ course }: { course: Course }) {
                   className={`reader-lesson-item ${isActive ? "active" : ""} ${done ? "done" : ""}`}
                   aria-current={isActive ? "step" : undefined}
                   aria-label={`${index + 1}. ${lesson.title}${done ? ", completed" : ""}`}
+                  aria-describedby={`lesson-details-${lesson.id}`}
                   onClick={() => selectLesson(lesson.id)}
                 >
                   <span className="lesson-status-icon" aria-hidden="true">
@@ -130,7 +132,11 @@ export function CourseReader({ course }: { course: Course }) {
                   </span>
                   <span className="lesson-item-text">
                     <strong>{lesson.title}</strong>
-                    <small>{lesson.duration}m</small>
+                    <small id={`lesson-details-${lesson.id}`}>
+                      {lesson.duration}m
+                      {state.quizResults[lesson.id] &&
+                        ` · Quiz best: ${state.quizResults[lesson.id].bestScore}%`}
+                    </small>
                   </span>
                 </button>
               );
@@ -182,6 +188,7 @@ export function CourseReader({ course }: { course: Course }) {
             </h3>
             <p lang="bn">{activeLesson.takeaway}</p>
           </div>
+          <LessonQuiz key={activeLesson.id} lessonId={activeLesson.id} />
           <p className="reader-completion-message" role="status">
             {isCompleted
               ? "Lesson completed. Your learning progress is updated."

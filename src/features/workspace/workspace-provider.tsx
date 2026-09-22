@@ -100,6 +100,22 @@ const actions = {
     ),
   updateProfile: (profile: WorkspaceState["profile"]) =>
     updateWorkspace((state) => ({ ...state, profile })),
+  recordQuizResult: (lessonId: string, score: number) =>
+    updateWorkspace((state) => {
+      const previous = state.quizResults[lessonId];
+      return {
+        ...state,
+        quizResults: {
+          ...state.quizResults,
+          [lessonId]: {
+            score,
+            bestScore: Math.max(previous?.bestScore ?? 0, score),
+            attempts: (previous?.attempts ?? 0) + 1,
+            attemptedAt: new Date().toISOString(),
+          },
+        },
+      };
+    }),
   resetData: () => {
     timerMemory.current = null;
     updateWorkspace(() => ({ ...initialWorkspace }), { reset: true });

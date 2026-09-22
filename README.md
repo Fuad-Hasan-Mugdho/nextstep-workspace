@@ -1,6 +1,6 @@
 # NextStep — ব্যবহার করতে করতে Next.js শিখুন
 
-NextStep একটি ব্যক্তিগত coding learning workspace। বাংলায় lesson পড়ুন, অগ্রগতি রাখুন, নিজের note লিখুন এবং focus session চালান। একই সঙ্গে project-এর code খুলে দেখুন একটি বাস্তব Next.js application কীভাবে কাজ করে।
+NextStep একটি ব্যক্তিগত coding learning workspace। বাংলায় lesson পড়ুন, quiz দিয়ে বোঝা যাচাই করুন, অগ্রগতি রাখুন, নিজের note লিখুন এবং focus session চালান। একই সঙ্গে project-এর code খুলে দেখুন একটি বাস্তব Next.js application কীভাবে কাজ করে।
 
 এটি **শেখার জন্য তৈরি কার্যকর demo**। ব্যক্তিগত workspace data আপনার browser-এ থাকে; authentication, database বা email delivery যুক্ত নেই। কোনো project-কে শুধু দেখে “১০০/১০০” বলা যায় না—কোন check কী যাচাই করে এবং কী সীমা আছে, নিচে তা স্পষ্ট করা হয়েছে।
 
@@ -28,7 +28,7 @@ npm run dev -- --port 3001
 ## প্রথম ১০ মিনিটে কী করবেন
 
 1. **Dashboard** থেকে Courses খুলে “Next.js Fundamentals” শুরু করুন।
-2. একটি lesson পড়ে complete করুন। Dashboard-এ progress বদলানো দেখুন।
+2. একটি lesson পড়ে তিনটি quiz question-এর উত্তর দিন। Feedback দেখে প্রয়োজনে retry করুন, তারপর lesson complete করে Dashboard-এর progress দেখুন।
 3. **My Notes**-এ নিজের ভাষায় দুই line লিখে save করুন। Refresh দিয়ে note থাকছে কি না দেখুন।
 4. **Roadmap**-এ আপনার শেখার ধাপ দেখুন, পরের অনুশীলনটি task হিসেবে যোগ করুন।
 5. **Focus Room**-এ timer চালিয়ে pause/resume চেষ্টা করুন।
@@ -39,19 +39,22 @@ npm run dev -- --port 3001
 
 ## কী তৈরি হয়েছে
 
-| Feature         | ব্যবহার করে যা করতে পারবেন                                        | যে concept শেখায়                                   |
-| --------------- | ----------------------------------------------------------------- | --------------------------------------------------- |
-| Dashboard       | নিজের progress, weekly activity, next lesson ও focus history দেখা | Derived state, reusable component                   |
-| Course catalog  | Search/filter, course শুরু, bookmark                              | Typed data, event handler, filtering                |
-| Lesson reader   | বাংলায় ব্যাখ্যা, code example, challenge এবং completion          | Dynamic route, async params, server/client boundary |
-| Roadmap         | Course অনুযায়ী অগ্রগতি, নিজের task যোগ/complete/delete           | Shared state, immutable update                      |
-| Notes           | Create/edit/delete, search, tag filter, draft                     | Form state, CRUD, local persistence                 |
-| Focus Room      | Work/break timer, pause/resume/reset, completed session history   | Effects, time calculations, browser state           |
-| Settings        | Display name, weekly goal, JSON export, confirmed reset           | Runtime validation, file download                   |
-| Project tour    | File structure, metadata ও data flow-এর বাংলা ব্যাখ্যা            | App Router architecture                             |
-| Form playground | Real server validation, field error, pending ও success            | Server Action, FormData, Zod, useActionState        |
+| Feature         | ব্যবহার করে যা করতে পারবেন                                        | যে concept শেখায়                                     |
+| --------------- | ----------------------------------------------------------------- | ----------------------------------------------------- |
+| Dashboard       | নিজের progress, weekly activity, next lesson ও focus history দেখা | Derived state, reusable component                     |
+| Course catalog  | Search/filter, course শুরু, bookmark                              | Typed data, event handler, filtering                  |
+| Lesson reader   | বাংলায় ব্যাখ্যা, code example, challenge এবং completion          | Dynamic route, async params, server/client boundary   |
+| Lesson quiz     | তিনটি প্রশ্ন, score, বাংলায় explanation, retry ও best score      | Typed question bank, pure scoring, form ও saved state |
+| Roadmap         | Course অনুযায়ী অগ্রগতি, নিজের task যোগ/complete/delete           | Shared state, immutable update                        |
+| Notes           | Create/edit/delete, search, tag filter, draft                     | Form state, CRUD, local persistence                   |
+| Focus Room      | Work/break timer, pause/resume/reset, completed session history   | Effects, time calculations, browser state             |
+| Settings        | Display name, weekly goal, JSON export, confirmed reset           | Runtime validation, file download                     |
+| Project tour    | File structure, metadata ও data flow-এর বাংলা ব্যাখ্যা            | App Router architecture                               |
+| Form playground | Real server validation, field error, pending ও success            | Server Action, FormData, Zod, useActionState          |
 
-চারটি course-এ মোট **১৬টি lesson** আছে: Next.js Fundamentals, React Essentials, TypeScript Toolkit ও Full-stack Patterns। Course content [data.ts](src/features/courses/data.ts)-এ এক জায়গায় রাখা হয়েছে।
+চারটি course-এ মোট **১৬টি lesson** আছে: Next.js Fundamentals, React Essentials, TypeScript Toolkit ও Full-stack Patterns। Course content [data.ts](src/features/courses/data.ts)-এ এক জায়গায় রাখা হয়েছে। প্রতিটি lesson-এর তিনটি করে মোট **৪৮টি quiz question** আছে [quiz question bank](src/features/quizzes/data.ts)-এ।
+
+Quiz-এর সব প্রশ্নের উত্তর দিয়ে submit করলে score percentage, কোন উত্তর ঠিক/ভুল এবং বাংলায় explanation দেখবেন। Retry করলে আগের best score থাকে; নতুন submit-এ latest score ও attempt count বদলায়। Lesson list-এ best score দেখা যায়। অসম্পূর্ণ answer lesson ছাড়লে মুছে যায়, submitted result browser-এ থাকে এবং workspace export/reset-এর অন্তর্ভুক্ত। Quiz দেওয়া আর lesson complete করা আলাদা action।
 
 ## Route থেকে code খুঁজুন
 
@@ -88,6 +91,7 @@ src/
 ├── config/                   # Site settings + environment validation
 └── features/
     ├── courses/              # Typed course content and cards
+    ├── quizzes/              # Questions, pure scoring and lesson quiz UI
     ├── dashboard/            # Progress and activity presentation
     ├── workspace/
     │   ├── model.ts          # Zod schemas, types, initial state
@@ -108,7 +112,8 @@ src/
 ## Data কোথায় থাকে
 
 - **Course content:** repository-তে static typed data। Course progress আলাদা personal state।
-- **Profile, progress, bookmarks, saved notes, tasks, completed focus sessions:** `localStorage`-এর `nextstep-workspace-v1` key-তে। একই browser profile ও একই origin-এ refresh-এর পরেও থাকে। Origin-এর মধ্যে scheme, hostname ও port-ও পড়ে।
+- **Profile, progress, quiz results, bookmarks, saved notes, tasks, completed focus sessions:** `localStorage`-এর `nextstep-workspace-v1` key-তে। একই browser profile ও একই origin-এ refresh-এর পরেও থাকে। Origin-এর মধ্যে scheme, hostname ও port-ও পড়ে।
+- **চলমান quiz-এর answer:** component-এর memory-তে থাকে; lesson ছাড়লে বা refresh করলে মুছে যায়। Submitted result-এ latest score, best score, attempt count ও last attempt-এর সময় রাখা হয়।
 - **Note draft ও চলমান timer:** tab-এর `sessionStorage`-এ recovery state। এগুলো saved note বা completed focus session-এর সমান নয়।
 - **Form playground input:** validation-এর জন্য server-এ যায়। এই application email পাঠায় না, message log বা database-এ save করে না।
 - **JSON export:** নিজের data দেখার ও backup রাখার জন্য download। Automatic import/restore UI এখন নেই।
@@ -161,8 +166,9 @@ Typecheck runtime input যাচাই করে না; lint UI ব্যব�
 3. [features/courses/data.ts](src/features/courses/data.ts): TypeScript data model।
 4. [app/courses/[slug]/page.tsx](src/app/courses/[slug]/page.tsx): dynamic params, lookup, notFound।
 5. [workspace model](src/features/workspace/model.ts), [actions/hook](src/features/workspace/workspace-provider.tsx), তারপর [store](src/features/workspace/store.ts): shared state ও persistence।
-6. [contact schema](src/features/contact/schema.ts), [action](src/features/contact/actions.ts), [form](src/features/contact/contact-form.tsx): browser → server → UI।
-7. একটি test পড়ুন, তারপর নিজে একটি ছোট feature যোগ করুন।
+6. [Quiz data](src/features/quizzes/data.ts), [scoring](src/features/quizzes/grade.ts), [quiz UI](src/features/quizzes/lesson-quiz.tsx): question → answer → feedback → saved result।
+7. [contact schema](src/features/contact/schema.ts), [action](src/features/contact/actions.ts), [form](src/features/contact/contact-form.tsx): browser → server → UI।
+8. একটি test পড়ুন, তারপর নিজে একটি ছোট feature যোগ করুন।
 
 প্রতিটি ধাপের “কী বদলাবেন” ও “কীভাবে বুঝবেন কাজ করেছে” আছে [বাংলা learning guide](docs/LEARNING_GUIDE.bn.md)-এ।
 
@@ -170,6 +176,6 @@ Typecheck runtime input যাচাই করে না; lint UI ব্যব�
 
 Full-stack Patterns একটি course-এর নাম; app-এ এখনো production database, user authentication, authorization, email provider, rate limiting বা multi-device synchronization তৈরি নেই। সেগুলো যোগ করতে data ownership, server-side access control, migrations, backups এবং integration tests আলাদা করে design করতে হবে।
 
-Timer শেখার সহায়ক। Browser/OS background scheduling এবং বন্ধ tab-এর সীমা আছে; এটি background notification service নয়। Dashboard-এর progress আপনার নিজের complete action-এর ভিত্তিতে হিসাব হয়, জ্ঞান যাচাই করে certificate দেয় না।
+Timer শেখার সহায়ক। Browser/OS background scheduling এবং বন্ধ tab-এর সীমা আছে; এটি background notification service নয়। Quiz নিজের বোঝা যাচাই ও অনুশীলনের জন্য। Dashboard-এর progress আপনার নিজের complete action-এর ভিত্তিতে হিসাব হয়; quiz submit করলে lesson নিজে থেকে complete হয় না।
 
 Installed stack: Next.js 16.3.5, React 19.2.8, TypeScript, Zod ও Playwright। Next.js APIs বদলাতে পারে—এই repository-তে code বদলানোর আগে [AGENTS.md](AGENTS.md) এবং `node_modules/next/dist/docs/`-এর প্রাসঙ্গিক guide পড়ুন।
